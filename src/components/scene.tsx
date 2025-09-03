@@ -1,5 +1,5 @@
 // Scene.tsx - Refactored Main Component
-import "./Scene.css";
+import "./scene.css";
 import { useState } from "react";
 import { useHobbyRecipe } from './useHobbyRecipe';
 import { useWindowManager } from './useWindowManager';

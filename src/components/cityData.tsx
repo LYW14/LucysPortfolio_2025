@@ -1,5 +1,4 @@
 // cityData.tsx
-import React from 'react';
 import type { City } from './types';
 
 // Helper function to create clickable Wikipedia links

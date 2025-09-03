@@ -1,12 +1,12 @@
 // Scene.tsx - Refactored Main Component
 import "./Scene.css";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useHobbyRecipe } from './useHobbyRecipe';
 import { useWindowManager } from './useWindowManager';
 import { createMenuHandlers } from './menuHandlers';
 import { Window } from './window';
 import { ProjectDetails } from './ProjectDetails';
-import { CityTravelGuide } from './cityTravelGuide';
+// import { CityTravelGuide } from './cityTravelGuide';
 import { PROJECTS } from './projectData';
 
 // Asset imports - organized by category
@@ -73,14 +73,14 @@ export default function Scene() {
     );
   };
 
-  const createStandaloneWindowHandler = (
-    id: string,
-    title: string,
-    content: React.ReactNode,
-    theme: any
-  ) => () => {
-    handleOpenWindow(`${id}-${Date.now()}`, title, content, theme);
-  };
+  // const createStandaloneWindowHandler = (
+  //   id: string,
+  //   title: string,
+  //   content: React.ReactNode,
+  //   theme: any
+  // ) => () => {
+  //   handleOpenWindow(`${id}-${Date.now()}`, title, content, theme);
+  // };
 
   return (
     <div className="scene">

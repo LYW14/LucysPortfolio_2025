@@ -1,6 +1,6 @@
 // utils.ts
 import { CONTACT_INFO, WINDOW_DEFAULTS } from './constants';
-import type { WindowData } from './types';
+// import type { WindowData } from './types';
 
 // Email utility functions
 export const copyEmailToClipboard = async (): Promise<void> => {

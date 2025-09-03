@@ -1,0 +1,303 @@
+@import "tailwindcss";
+
+  .backdrop {
+    width: 100%;   /* scales responsively */
+    height: auto;
+    bottom: 0;
+    right: 0%;
+    z-index: 1
+  }
+
+  .scene {
+    position: relative;
+    width: 130%;
+    max-width: 1200px;
+    margin: 0 auto;
+    aspect-ratio: 1710/981; 
+    /* padding-bottom: 56.25%; /* 9/16 * 100% for 16:9 ratio */
+  }
+  
+  .scene img {
+    position: absolute;
+    max-width: 100%; /* prevents stretching beyond container */
+  }
+  
+  .cooking{
+    /* position: absolute; */
+    bottom: 5%;
+    left: 28%;
+    width: 13.5%;
+    height: auto;
+    z-index: 7 /*layering*/
+  }
+  .cooking5{
+    bottom: 34.5%;
+    left: 29.5%;
+    width: 7%;
+    height: auto;
+    z-index: 7 /*layering*/
+  }
+  .cooking1{
+    bottom: 33.5%;
+    left: 35%;
+    width: 8%;
+    height: auto;
+    z-index: 7 /*layering*/
+  }
+  .cooking2{
+    bottom: 13.5%;
+    left: 26%;
+    width: 13.5%;
+    height: auto;
+    z-index: 7 /*layering*/
+  }
+  .cooking3{
+    bottom: 9%;
+    left: 27%;
+    width: 6%;
+    height: auto;
+    z-index: 7 /*layering*/
+  }
+  .cooking4{
+    bottom: 9%;
+    left: 33%;
+    width: 6%;
+    height: auto;
+    z-index: 7 /*layering*/
+  }
+
+  .map_full{
+    top: 15%;
+    right: 0;
+    width: 31%;
+    height: auto;
+    z-index: 7 /*layering*/
+
+  }
+  .shelf_full{
+    top: 22%;
+    left: 50%;
+    width: 25%;
+    height: auto;
+    z-index: 7 /*layering*/
+
+  }
+  .tools{
+    top: 42%;
+    left: 24%;
+    width: 6%;
+    height: auto;
+    z-index: 7 /*layering*/
+
+  }
+  .books{
+    bottom: 33.5%;
+    left: 18.5%;
+    width: 5%;
+    height: auto;
+    z-index: 7 /*layering*/
+
+  }
+  .coffee{
+    bottom: 34%;
+    left: 50%;
+    width: 4%;
+    height: auto;
+    z-index: 7 /*layering*/
+
+  }
+  /* .note{
+
+  } */
+  
+  .icon {
+    transition: all 0.2s ease;
+    cursor: pointer; /* so users know it’s clickable */
+  }
+  
+  .icon:hover {
+    transform: scale(0.95); /* shrink slightly */
+    box-shadow: 0 0 20px 5px yellow;
+    border-radius: 8px; /* makes glow look smoother */
+  }
+  
+  .window-header button {
+    pointer-events: auto !important;
+    z-index: 10;
+  }
+
+  /* FRIDGE MENU STYLES */
+.fridge-menu-item {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 4px;
+  z-index: 5;
+}
+
+/* MENU HEADER STYLES */
+.menu-header {
+  width: auto;
+  height: 24px;
+  object-fit: contain;
+  margin-bottom: 16px;
+  margin-left: auto;
+  margin-right: auto;
+  top: 120px;
+  left: 5px;
+}
+.menu-header-positioned {
+  width: auto;
+  height: 2.45%; /* 24px / 981px * 100% */
+  object-fit: contain;
+  top: 12.23%; /* 120px / 981px * 100% */
+  left: 0.29%; /* 5px / 1710px * 100% */
+  z-index: 10;
+}
+
+/* MENU CONTAINER */
+.menu-container {
+  position: relative;
+  width: 160px;
+  height: 400px;
+  overflow: visible;
+}
+
+/* FRIDGE MENU STYLES - Staggered positioning */
+.fridge-menu-item {
+  width: auto;
+  height: 30px;
+  position: absolute;
+  object-fit: contain;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 5px;
+  display: inline-block;
+  overflow: visible;
+  border: 5px;
+}
+
+/* Individual positioning for staggered effect */
+.menu-item-1 {
+  position: absolute;
+  top: 37%;
+  left: 25%;
+  width: 80%;
+  height: auto;
+}
+
+.menu-item-2 {
+  position: absolute;
+  top: 44%;
+  left: 25%;
+  width: 61%;
+  height: auto;
+}
+
+.menu-item-3 {
+  top: 50%;
+  left: 25%;
+  width: 72%;
+  height: auto;
+}
+
+.menu-item-4 {
+  top: 56%;
+  left: 25%;
+  width: 70%;
+  height: auto;
+}
+
+.menu-item-5{
+  top: 62%;
+  left: 25%;
+  width: 48%;
+  height: auto;
+}
+.menu-item-6 {
+  top: 71%;
+  left: 54%;
+  width: 68%;
+  height: auto;
+}
+
+.menu-item-7 {
+  top: 99%;
+  left: 15%;
+  width: 120%;
+  height: auto;
+}
+
+.fridge-menu-item:hover {
+  transform: scale(1.1) rotate(0deg) !important;
+  /* box-shadow: 0 0 20 5; */
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(59, 130, 246, 0.5);
+  z-index: 20;
+}
+
+/* Special styling for email component since it's a div */
+.fridge-menu-item div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-size: 24px;
+}
+
+.extra-item-1{
+  top: 105%;
+  left: 10%;
+  width: 60%;
+  height: auto;
+}
+
+/* City selection buttons */
+/*
+.city-travel-guide button {
+  cursor: pointer;
+}
+
+.city-travel-guide input[type="range"] {
+  cursor: pointer;
+}
+
+.city-travel-guide .back-button {
+  cursor: pointer;
+}
+
+.city-button,
+.sound-button,
+.eagle-button {
+  cursor: pointer;
+} */
+button {
+  cursor: pointer;
+}
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .fridge-menu-item {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .scene {
+    width: 100%;
+  }
+}
+
+/* Special styling for smoke animation */
+@keyframes ping-slow {  
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.animate-ping-slow {
+  animation: ping-slow 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}

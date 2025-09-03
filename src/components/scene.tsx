@@ -29,7 +29,7 @@ import hobbies from "../assets/fridge_menu_components/hobbies.png";
 import reading from "../assets/fridge_menu_components/reading.png";
 import resume from "../assets/fridge_menu_components/resume_comp_copy_2.png";
 import menu from "../assets/fridge_menu_components/menu.png";
-import title from "/Users/lucywang/LucysPortfolio/src/assets/fridge_menu_components/LucysWebsite.png";
+import title from "../assets/fridge_menu_components/LucysWebsite.png";
 import email from "../assets/fridge_menu_components/email.png";
 import more from "../assets/fridge_menu_components/more_image.png";
 import tools_text from "../assets/fridge_menu_components/tools_text.png";

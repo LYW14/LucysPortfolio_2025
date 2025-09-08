@@ -50,7 +50,7 @@ export const PROJECTS: Project[] = [
     },
     learned: 'This project has been an exercise in wearing multiple hats: I got to be the software engineer, the UI/UX designer, and the stakeholder. I learned that visualizing a design in my head isn’t enough—without detailed planning, even small choices (like picking an icon out of hundreds that look similar) became time-consuming and frustrating. This showed me the value of organized, intentional design before coding. I also began exploring branding and theme development, experimenting with design cohesion through metaphors (like the train/public transit theme).',
     media: {
-      videos: ['https://www.youtube.com/embed/pP_beo3Xs1E?si=ht7qM1QJDG7ImXuH'],
+      videos: [ 'https://www.youtube.com/embed/_jPpGXu7MBo?si=4sJWYEUbvbBH7BY8'],
       files: [
         {
           name: 'GitHub Repository',

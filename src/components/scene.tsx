@@ -26,7 +26,7 @@ import tools from "../assets/tools.png";
 import projects from "../assets/fridge_menu_components/projects.png";
 import places from "../assets/fridge_menu_components/places.png";
 import hobbies from "../assets/fridge_menu_components/hobbies.png";
-import reading from "../assets/fridge_menu_components/reading.png";
+import reading from "../assets/fridge_menu_components/coursework.png";
 import resume from "../assets/fridge_menu_components/resume_comp_copy_2.png";
 import menu from "../assets/fridge_menu_components/menu.png";
 import title from "../assets/fridge_menu_components/LucysWebsite.png";

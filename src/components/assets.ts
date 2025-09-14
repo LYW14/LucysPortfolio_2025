@@ -29,7 +29,7 @@ export { default as eagle_sound } from "../assets/eagle-sounds.mp3";
 export { default as projects } from "../assets/fridge_menu_components/projects.png";
 export { default as places } from "../assets/fridge_menu_components/places.png";
 export { default as hobbies } from "../assets/fridge_menu_components/hobbies.png";
-export { default as reading } from "../assets/fridge_menu_components/reading.png";
+export { default as reading } from "../assets/fridge_menu_components/coursework.png";
 export { default as resume } from "../assets/fridge_menu_components/resume_comp_copy_2.png";
 export { default as menu } from "../assets/fridge_menu_components/menu.png";
 export { default as title } from "/Users/lucywang/LucysPortfolio/src/assets/fridge_menu_components/LucysWebsite.png";

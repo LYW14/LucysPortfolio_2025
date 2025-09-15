@@ -1,6 +1,6 @@
 // Scene.tsx - Refactored Main Component
 import "./scene.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHobbyRecipe } from './useHobbyRecipe';
 import { useWindowManager } from './useWindowManager';
 import { createMenuHandlers } from './menuHandlers';
@@ -8,6 +8,7 @@ import { Window } from './window';
 import { ProjectDetails } from './ProjectDetails';
 // import { CityTravelGuide } from './cityTravelGuide';
 import { PROJECTS } from './projectData';
+import {WelcomeWindow} from './welcomeWindow';
 
 // Asset imports - organized by category
 import books from "../assets/books.png";
@@ -36,6 +37,7 @@ import tools_text from "../assets/fridge_menu_components/tools_text.png";
 
 export default function Scene() {
   const [currentHobbyIndex, setCurrentHobbyIndex] = useState(0);
+  const [hasShownWelcome, setHasShownWelcome] = useState(false);
   
   const {
     windows,
@@ -50,7 +52,7 @@ export default function Scene() {
     currentHobbyIndex, 
     setCurrentHobbyIndex 
   });
-
+  
   const {
     handleProjectsMenu,
     handlePlacesMenu,
@@ -60,6 +62,19 @@ export default function Scene() {
     handleEmailClick,
     handleResumeDownload,
   } = createMenuHandlers({ handleOpenWindow, openHobbyWindow });
+
+  useEffect(() => {
+    if (!hasShownWelcome) {
+      handleOpenWindow(
+        "welcome-window",
+        "Welcome! 👋",
+        <WelcomeWindow />,
+        "default"
+      );
+      
+      setHasShownWelcome(true);
+    }
+  }, [hasShownWelcome, handleOpenWindow]);
 
   const createProjectHandler = (projectId: string) => () => {
     const project = PROJECTS.find(p => p.id === projectId);
@@ -130,19 +145,6 @@ export default function Scene() {
         //   "shelf",
         //   "Collections",
         //   <div>
-        //     <h3 className="text-lg font-bold mb-3">📦 My Collections</h3>
-        //     <p>Things I collect and treasure...</p>
-        //     <div className="mt-4 space-y-2">
-        //       <div className="p-3 bg-white rounded border">
-        //         <strong>Vinyl Records:</strong> 47 albums and counting
-        //       </div>
-        //       <div className="p-3 bg-white rounded border">
-        //         <strong>Vintage Cameras:</strong> 8 working film cameras
-        //       </div>
-        //       <div className="p-3 bg-white rounded border">
-        //         <strong>Art Supplies:</strong> Way too many watercolor sets
-        //       </div>
-        //     </div>
         //   </div>,
         //   "shelf"
         // )}

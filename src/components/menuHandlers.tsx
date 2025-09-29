@@ -78,8 +78,7 @@ interface MenuHandlersProps {
           <div className="mt-4 space-y-2">
             <div className="p-3 bg-white rounded border">
               <strong>Programming/Data Science</strong><br/>
-                <strong>QST BA576:</strong> 
-                Machine Learning for Business Analytics <br/>
+                <strong>QST BA576:</strong> Machine Learning for Business Analytics <br/>
                 <strong>CDS CS519:</strong> Spark! Software Engineering Practicum <br/>
                 <strong>CDS DS430:</strong> Introduction to Bioinformatics and Computational Biology<br/>
                 <strong>CDS DS340:</strong> Introduction to Machine Learning and Artificial Intelligence<br/>

@@ -97,7 +97,9 @@ interface MenuHandlersProps {
             <div className="p-3 bg-white rounded border">
               <strong>Public Health: </strong><br/>
                 <strong>SPH PH510:</strong> Essentials of Public Health <br/>
-                <strong>SAR HS325:</strong> Introduction to Global Health
+                <strong>SPH PH507e:</strong> Controversies in International Health <br/>
+                <strong>SPH PH506e:</strong> International Heatlh at the World Health Organization <br/> 
+                <strong>SAR HS325:</strong> Introduction to Global Health 
             </div>
             <div className="p-3 bg-white rounded border">
               <strong>Math Education: </strong><br/>
@@ -120,16 +122,13 @@ interface MenuHandlersProps {
           <p>Take a look at my Projects to see where I've used some of these!</p>
           <div className="mt-4 space-y-2">
             <div className="p-3 bg-white rounded border">
-              <strong>Data Analytics:</strong> SQL, Python, MongoDB, PostgreSQL
+              <strong>Data Science & Analytics :</strong> TensorFlow, PyTorch, Scikit-learn, NumPy, Pandas, Matplotlib, Predictive Modeling, Statistical Analysis, Data Storytelling
             </div>
             <div className="p-3 bg-white rounded border">
-              <strong>Programming Languages:</strong> Java, Python, TypeScript, JavaScript
+              <strong>Programming Languages:</strong> Java, Python, TypeScript, JavaScript, SQL
             </div>
             <div className="p-3 bg-white rounded border">
-              <strong>Frameworks & Libraries:</strong> React, Vite, Node.js
-            </div>
-            <div className="p-3 bg-white rounded border">
-              <strong>Styling & UI:</strong> CSS, HTML, TailwindCSS, Material UI
+              <strong>Web Development & Databases:</strong> React, Node.js, Vite, HTML, CSS, Tailwind CSS, Material UI, PostgreSQL, MongoDB
             </div>
           </div>
         </div>,

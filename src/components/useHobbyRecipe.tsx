@@ -51,6 +51,15 @@ const hobbies: Hobby[] = [
       "A pair of sneakers",
       "Deodorant (recommended)",
     ]
+  },
+  {
+    title: "Baking",
+    rating: "★★★★★",
+    totalTime: "10+ years",
+    yields: "Endless sweet treats",
+    needs: [
+      "Hungry family + friends!",
+    ]
   }
 ];
 

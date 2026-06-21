@@ -1,10 +1,21 @@
 // types.ts
-import React from 'react';
+
+// --- Window content ---
+// Store identifiers, not React nodes, so content stays fresh and closures don't go stale.
+export type WindowContent =
+  | { type: 'welcome' }
+  | { type: 'hobby' }
+  | { type: 'project'; projectId: string }
+  | { type: 'projects-menu' }
+  | { type: 'places' }
+  | { type: 'reading' }
+  | { type: 'tools' }
+  | { type: 'more' };
 
 export interface WindowData {
   id: string;
   title: string;
-  content: React.ReactNode;
+  content: WindowContent;   // was React.ReactNode
   theme: WindowTheme;
   x: number;
   y: number;
@@ -44,6 +55,7 @@ export interface MediaFile {
   type: 'pdf' | 'link' | 'doc' | string;
 }
 
+// All string fields — JSX removed. Use **bold** markers; FormattedText renders them.
 export interface Project {
   id: string;
   title: string;
@@ -52,9 +64,9 @@ export interface Project {
   descriptions: {
     short: string;
     medium: string;
-    long: string| React.ReactNode;
+    long: string;
   };
-  learned: string | React.ReactNode;
+  learned: string;
   media?: ProjectMedia;
 }
 
@@ -62,7 +74,7 @@ export interface City {
   id: string;
   name: string;
   emoji: string;
-  slides: (string | React.ReactNode)[];
+  slides: string[];
 }
 
 export interface ThemeConfig {

@@ -1,16 +1,12 @@
-// Scene.tsx - Refactored Main Component
+// Scene.tsx
 import "./scene.css";
-import { useState, useEffect } from "react";
-import { useHobbyRecipe } from './useHobbyRecipe';
+import { useEffect } from "react";
 import { useWindowManager } from './useWindowManager';
 import { createMenuHandlers } from './menuHandlers';
 import { Window } from './window';
-import { ProjectDetails } from './ProjectDetails';
-// import { CityTravelGuide } from './cityTravelGuide';
-import { PROJECTS } from './projectData';
-import {WelcomeWindow} from './welcomeWindow';
+import { WindowManagerContext } from './WindowManagerContext';
 
-// Asset imports - organized by category
+// Asset imports
 import books from "../assets/books.png";
 import coffee from "../assets/coffee.png";
 import cooking1 from "../assets/cooking1.png";
@@ -36,9 +32,6 @@ import more from "../assets/fridge_menu_components/more_image.png";
 import tools_text from "../assets/fridge_menu_components/tools_text.png";
 
 export default function Scene() {
-  const [currentHobbyIndex, setCurrentHobbyIndex] = useState(0);
-  const [hasShownWelcome, setHasShownWelcome] = useState(false);
-
   const {
     windows,
     handleOpenWindow,
@@ -48,12 +41,6 @@ export default function Scene() {
     handleResizeMouseDown,
   } = useWindowManager();
 
-  const { openHobbyWindow } = useHobbyRecipe({
-    handleOpenWindow,
-    currentHobbyIndex,
-    setCurrentHobbyIndex
-  });
-
   const {
     handleProjectsMenu,
     handlePlacesMenu,
@@ -62,41 +49,20 @@ export default function Scene() {
     handleMoreMenu,
     handleEmailClick,
     handleResumeDownload,
-  } = createMenuHandlers({ handleOpenWindow, openHobbyWindow });
+  } = createMenuHandlers({ handleOpenWindow });
 
+  // Open welcome window once on mount. handleOpenWindow is stable so this
+  // effect truly runs only once — no hasShownWelcome guard needed.
   useEffect(() => {
-    if (!hasShownWelcome) {
-      handleOpenWindow(
-        "welcome-window",
-        "Welcome! 👋",
-        <WelcomeWindow />,
-        "default"
-      );
+    handleOpenWindow("welcome-window", "Welcome! 👋", { type: 'welcome' }, "default");
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-      setHasShownWelcome(true);
-    }
-  }, [hasShownWelcome, handleOpenWindow]);
+  const openProject = (projectId: string, title: string) =>
+    handleOpenWindow(`project-${projectId}-${Date.now()}`, title, { type: 'project', projectId }, 'cooking');
 
-  const createProjectHandler = (projectId: string) => () => {
-    const project = PROJECTS.find(p => p.id === projectId);
-    if (!project) return;
-
-    handleOpenWindow(
-      `project-${projectId}-${Date.now()}`,
-      project.title,
-      <ProjectDetails project={project} />,
-      "cooking"
-    );
-  };
-
-  // const createStandaloneWindowHandler = (
-  //   id: string,
-  //   title: string,
-  //   content: React.ReactNode,
-  //   theme: any
-  // ) => () => {
-  //   handleOpenWindow(`${id}-${Date.now()}`, title, content, theme);
-  // };
+  const openHobbyWindow = () =>
+    handleOpenWindow('hobby-recipe-window', 'My Hobbies', { type: 'hobby' }, 'coffee');
 
   return (
     <div className="scene">
@@ -107,62 +73,46 @@ export default function Scene() {
         <img src={title} alt="Lucy's Website" className="page-title" />
       </div>
 
-      {/* Fridge Menu Components */}
+      {/* Fridge Menu */}
       <div className="absolute left-2 top-1/2 transform -translate-y-1/2 flex flex-col space-y-4 z-[10]">
         <img src={menu} alt="menu" className="menu-header mb-4" />
-
         <div className="menu-container">
-          <img src={projects} alt="projects" className="absolute fridge-menu-item menu-item-1 icon" onClick={handleProjectsMenu} />
-          <img src={places} alt="places" className="absolute fridge-menu-item menu-item-2 icon" onClick={handlePlacesMenu} />
-          <img src={reading} alt="reading" className="absolute fridge-menu-item menu-item-3 icon" onClick={handleReadingMenu} />
-          <img src={hobbies} alt="hobbies" className="absolute fridge-menu-item menu-item-4 icon" onClick={openHobbyWindow} />
-          <img src={tools_text} alt="tools" className="absolute fridge-menu-item menu-item-5 icon" onClick={handleToolsMenu} />
-          <img src={resume} alt="resume" className="absolute fridge-menu-item menu-item-6 icon" onClick={handleResumeDownload} title="Download Resume" />
-          <img src={email} className="absolute fridge-menu-item menu-item-7 icon" onClick={handleEmailClick} title="Click to copy email to clipboard" />
+          <img src={projects}   alt="projects"   className="absolute fridge-menu-item menu-item-1 icon" onClick={handleProjectsMenu} />
+          <img src={places}     alt="places"     className="absolute fridge-menu-item menu-item-2 icon" onClick={handlePlacesMenu} />
+          <img src={reading}    alt="reading"    className="absolute fridge-menu-item menu-item-3 icon" onClick={handleReadingMenu} />
+          <img src={hobbies}    alt="hobbies"    className="absolute fridge-menu-item menu-item-4 icon" onClick={openHobbyWindow} />
+          <img src={tools_text} alt="tools"      className="absolute fridge-menu-item menu-item-5 icon" onClick={handleToolsMenu} />
+          <img src={resume}     alt="resume"     className="absolute fridge-menu-item menu-item-6 icon" onClick={handleResumeDownload} title="Download Resume" />
+          <img src={email}                       className="absolute fridge-menu-item menu-item-7 icon" onClick={handleEmailClick} title="Click to copy email" />
         </div>
-
         <img src={more} className="absolute fridge-item extra-item-1 icon" onClick={handleMoreMenu} title="Learn More" />
       </div>
 
-      {/* Interactive Scene Elements */}
-      <img src={books} alt="books" className="books icon" onClick={handleReadingMenu} />
-      <img src={coffee} alt="coffee" className="coffee icon" onClick={openHobbyWindow} />
+      {/* Interactive scene elements */}
+      <img src={books}    alt="books"    className="books icon"    onClick={handleReadingMenu} />
+      <img src={coffee}   alt="coffee"   className="coffee icon"   onClick={openHobbyWindow} />
+      <img src={cooking5} alt="cooking5" className="cooking5 icon" onClick={() => openProject('project1', 'CMOVF: Computerized Mapping of Visuospatial Fields')} />
+      <img src={cooking1} alt="cooking1" className="cooking1 icon" onClick={() => openProject('project2', 'Function Junction')} />
+      <img src={cooking2} alt="cooking2" className="cooking2 icon" onClick={() => openProject('project3', 'LOOKSMAXX')} />
+      <img src={cooking3} alt="cooking3" className="cooking3 icon" onClick={() => openProject('project4', 'Academic Performance vs. Study Habits')} />
+      <img src={cooking4} alt="cooking4" className="cooking4 icon" onClick={() => openProject('project5', 'Single Cell/Goblet Cell Transcriptome Changes in Colitis')} />
+      <img src={map_full} alt="map"      className="map_full icon" onClick={handlePlacesMenu} />
+      <img src={shelf_full} alt="shelf"  className="shelf_full" />
+      <img src={tools}    alt="tools"    className="tools icon"    onClick={handleToolsMenu} />
 
-      {/* Cooking Project Items */}
-      <img src={cooking5} alt="cooking5" className="cooking5 icon" onClick={createProjectHandler('project1')} />
-      <img src={cooking1} alt="cooking1" className="cooking1 icon" onClick={createProjectHandler('project2')} />
-      <img src={cooking2} alt="cooking2" className="cooking2 icon" onClick={createProjectHandler('project3')} />
-      <img src={cooking3} alt="cooking3" className="cooking3 icon" onClick={createProjectHandler('project4')} />
-      <img src={cooking4} alt="cooking4" className="cooking4 icon" onClick={createProjectHandler('project5')} />
-
-      {/* Other Interactive Elements */}
-      <img src={map_full} alt="map" className="map_full icon" onClick={handlePlacesMenu} />
-      <img
-        src={shelf_full}
-        alt="shelf"
-        // className="shelf_full icon" //temporary disabled
-        className="shelf_full"
-        // onClick={createStandaloneWindowHandler(
-        //   "shelf",
-        //   "Collections",
-        //   <div>
-        //   </div>,
-        //   "shelf"
-        // )}
-      />
-      <img src={tools} alt="tools" className="tools icon" onClick={handleToolsMenu} />
-
-      {/* Render Open Windows */}
-      {windows.map((window) => (
-        <Window
-          key={window.id}
-          window={window}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
-          onClose={handleCloseWindow}
-          onResizeMouseDown={handleResizeMouseDown}
-        />
-      ))}
+      {/* Windows — wrapped in context so content components can open new windows */}
+      <WindowManagerContext.Provider value={{ openWindow: handleOpenWindow, closeWindow: handleCloseWindow }}>
+        {windows.map((win) => (
+          <Window
+            key={win.id}
+            window={win}
+            onMouseDown={handleMouseDown}
+            onTouchStart={handleTouchStart}
+            onClose={handleCloseWindow}
+            onResizeMouseDown={handleResizeMouseDown}
+          />
+        ))}
+      </WindowManagerContext.Provider>
     </div>
   );
 }

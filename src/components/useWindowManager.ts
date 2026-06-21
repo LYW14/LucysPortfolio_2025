@@ -6,13 +6,13 @@ import { calculateWindowPosition, constrainPosition } from './utils';
 
 export const useWindowManager = () => {
   const [windows, setWindows] = useState<WindowData[]>([]);
-  const [dragData, setDragData] = useState<DragData>({ 
-    isDragging: false, 
-    windowId: '', 
-    startX: 0, 
-    startY: 0, 
-    windowX: 0, 
-    windowY: 0 
+  const [dragData, setDragData] = useState<DragData>({
+    isDragging: false,
+    windowId: '',
+    startX: 0,
+    startY: 0,
+    windowX: 0,
+    windowY: 0
   });
   const [resizeData, setResizeData] = useState<ResizeData>({
     isResizing: false,
@@ -42,7 +42,7 @@ export const useWindowManager = () => {
     const isProjectWindow = id.startsWith('project-');
     const existingProjectWindows = windows.filter(w => w.id.startsWith('project-'));
     const windowCount = isProjectWindow ? existingProjectWindows.length : windows.length;
-    
+
     const position = calculateWindowPosition(windowCount, isProjectWindow);
 
     const newWindow: WindowData = {
@@ -63,19 +63,58 @@ export const useWindowManager = () => {
     setWindows(prev => prev.filter(w => w.id !== id));
   }, []);
 
+  // Shared position update used by both mouse and touch drag
+  const updateDragPosition = useCallback((clientX: number, clientY: number) => {
+    const deltaX = clientX - dragData.startX;
+    const deltaY = clientY - dragData.startY;
+
+    setWindows(prev => prev.map(w => {
+      if (w.id !== dragData.windowId) return w;
+
+      const newPosition = constrainPosition(
+        dragData.windowX + deltaX,
+        dragData.windowY + deltaY,
+        w.width,
+        w.height
+      );
+
+      return { ...w, x: newPosition.x, y: newPosition.y };
+    }));
+  }, [dragData]);
+
   const handleMouseDown = useCallback((e: React.MouseEvent, windowId: string) => {
     if (!(e.target as HTMLElement).closest('.window-header')) return;
-    
-    const window = windows.find(w => w.id === windowId);
-    if (!window) return;
+
+    const win = windows.find(w => w.id === windowId);
+    if (!win) return;
 
     setDragData({
       isDragging: true,
       windowId,
       startX: e.clientX,
       startY: e.clientY,
-      windowX: window.x,
-      windowY: window.y
+      windowX: win.x,
+      windowY: win.y
+    });
+
+    e.preventDefault();
+  }, [windows]);
+
+  // Touch equivalent of handleMouseDown — enables drag on mobile
+  const handleTouchStart = useCallback((e: React.TouchEvent, windowId: string) => {
+    if (!(e.target as HTMLElement).closest('.window-header')) return;
+
+    const touch = e.touches[0];
+    const win = windows.find(w => w.id === windowId);
+    if (!win) return;
+
+    setDragData({
+      isDragging: true,
+      windowId,
+      startX: touch.clientX,
+      startY: touch.clientY,
+      windowX: win.x,
+      windowY: win.y
     });
 
     e.preventDefault();
@@ -83,46 +122,31 @@ export const useWindowManager = () => {
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     if (!dragData.isDragging) return;
-
-    const deltaX = e.clientX - dragData.startX;
-    const deltaY = e.clientY - dragData.startY;
-
-    setWindows(prev => prev.map(w => {
-      if (w.id !== dragData.windowId) return w;
-      
-      const newPosition = constrainPosition(
-        dragData.windowX + deltaX,
-        dragData.windowY + deltaY,
-        w.width,
-        w.height
-      );
-      
-      return { ...w, x: newPosition.x, y: newPosition.y };
-    }));
-  }, [dragData]);
+    updateDragPosition(e.clientX, e.clientY);
+  }, [dragData.isDragging, updateDragPosition]);
 
   const handleMouseUp = useCallback(() => {
-    setDragData({ 
-      isDragging: false, 
-      windowId: '', 
-      startX: 0, 
-      startY: 0, 
-      windowX: 0, 
-      windowY: 0 
+    setDragData({
+      isDragging: false,
+      windowId: '',
+      startX: 0,
+      startY: 0,
+      windowX: 0,
+      windowY: 0
     });
   }, []);
 
   const handleResizeMouseDown = useCallback((e: React.MouseEvent, windowId: string, direction: string) => {
-    const window = windows.find(w => w.id === windowId);
-    if (!window) return;
+    const win = windows.find(w => w.id === windowId);
+    if (!win) return;
 
     setResizeData({
       isResizing: true,
       windowId,
       startX: e.clientX,
       startY: e.clientY,
-      startWidth: window.width,
-      startHeight: window.height,
+      startWidth: win.width,
+      startHeight: win.height,
       resizeDirection: direction
     });
 
@@ -175,24 +199,35 @@ export const useWindowManager = () => {
     });
   }, []);
 
-  // Mouse event listeners
+  // Mouse drag listeners
   useEffect(() => {
-    if (dragData.isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      
-      return () => {
-        document.removeEventListener('mousemove', handleMouseMove);
-        document.removeEventListener('mouseup', handleMouseUp);
-      };
-    }
-  }, [dragData.isDragging, handleMouseMove, handleMouseUp]);
+    if (!dragData.isDragging) return;
 
+    const handleTouchMove = (e: TouchEvent) => {
+      const touch = e.touches[0];
+      updateDragPosition(touch.clientX, touch.clientY);
+      e.preventDefault(); // prevent page scroll while dragging a window
+    };
+
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleMouseUp);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('touchmove', handleTouchMove);
+      document.removeEventListener('touchend', handleMouseUp);
+    };
+  }, [dragData.isDragging, handleMouseMove, handleMouseUp, updateDragPosition]);
+
+  // Resize listeners
   useEffect(() => {
     if (resizeData.isResizing) {
       document.addEventListener('mousemove', handleResizeMouseMove);
       document.addEventListener('mouseup', handleResizeMouseUp);
-      
+
       return () => {
         document.removeEventListener('mousemove', handleResizeMouseMove);
         document.removeEventListener('mouseup', handleResizeMouseUp);
@@ -205,6 +240,7 @@ export const useWindowManager = () => {
     handleOpenWindow,
     handleCloseWindow,
     handleMouseDown,
+    handleTouchStart,
     handleResizeMouseDown,
   };
 };

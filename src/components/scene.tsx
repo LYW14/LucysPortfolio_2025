@@ -38,21 +38,22 @@ import tools_text from "../assets/fridge_menu_components/tools_text.png";
 export default function Scene() {
   const [currentHobbyIndex, setCurrentHobbyIndex] = useState(0);
   const [hasShownWelcome, setHasShownWelcome] = useState(false);
-  
+
   const {
     windows,
     handleOpenWindow,
     handleCloseWindow,
     handleMouseDown,
+    handleTouchStart,
     handleResizeMouseDown,
   } = useWindowManager();
 
-  const { openHobbyWindow } = useHobbyRecipe({ 
-    handleOpenWindow, 
-    currentHobbyIndex, 
-    setCurrentHobbyIndex 
+  const { openHobbyWindow } = useHobbyRecipe({
+    handleOpenWindow,
+    currentHobbyIndex,
+    setCurrentHobbyIndex
   });
-  
+
   const {
     handleProjectsMenu,
     handlePlacesMenu,
@@ -71,7 +72,7 @@ export default function Scene() {
         <WelcomeWindow />,
         "default"
       );
-      
+
       setHasShownWelcome(true);
     }
   }, [hasShownWelcome, handleOpenWindow]);
@@ -79,7 +80,7 @@ export default function Scene() {
   const createProjectHandler = (projectId: string) => () => {
     const project = PROJECTS.find(p => p.id === projectId);
     if (!project) return;
-    
+
     handleOpenWindow(
       `project-${projectId}-${Date.now()}`,
       project.title,
@@ -100,7 +101,7 @@ export default function Scene() {
   return (
     <div className="scene">
       <img src={backdrop} alt="kitchen background" className="backdrop" />
-      
+
       {/* Page Title */}
       <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-[15] w-[90%] max-w-[800px] h-auto">
         <img src={title} alt="Lucy's Website" className="page-title" />
@@ -109,7 +110,7 @@ export default function Scene() {
       {/* Fridge Menu Components */}
       <div className="absolute left-2 top-1/2 transform -translate-y-1/2 flex flex-col space-y-4 z-[10]">
         <img src={menu} alt="menu" className="menu-header mb-4" />
-        
+
         <div className="menu-container">
           <img src={projects} alt="projects" className="absolute fridge-menu-item menu-item-1 icon" onClick={handleProjectsMenu} />
           <img src={places} alt="places" className="absolute fridge-menu-item menu-item-2 icon" onClick={handlePlacesMenu} />
@@ -126,7 +127,7 @@ export default function Scene() {
       {/* Interactive Scene Elements */}
       <img src={books} alt="books" className="books icon" onClick={handleReadingMenu} />
       <img src={coffee} alt="coffee" className="coffee icon" onClick={openHobbyWindow} />
-      
+
       {/* Cooking Project Items */}
       <img src={cooking5} alt="cooking5" className="cooking5 icon" onClick={createProjectHandler('project1')} />
       <img src={cooking1} alt="cooking1" className="cooking1 icon" onClick={createProjectHandler('project2')} />
@@ -136,11 +137,11 @@ export default function Scene() {
 
       {/* Other Interactive Elements */}
       <img src={map_full} alt="map" className="map_full icon" onClick={handlePlacesMenu} />
-      <img 
-        src={shelf_full} 
-        alt="shelf" 
+      <img
+        src={shelf_full}
+        alt="shelf"
         // className="shelf_full icon" //temporary disabled
-        className="shelf_full" 
+        className="shelf_full"
         // onClick={createStandaloneWindowHandler(
         //   "shelf",
         //   "Collections",
@@ -153,10 +154,11 @@ export default function Scene() {
 
       {/* Render Open Windows */}
       {windows.map((window) => (
-        <Window 
-          key={window.id} 
+        <Window
+          key={window.id}
           window={window}
           onMouseDown={handleMouseDown}
+          onTouchStart={handleTouchStart}
           onClose={handleCloseWindow}
           onResizeMouseDown={handleResizeMouseDown}
         />

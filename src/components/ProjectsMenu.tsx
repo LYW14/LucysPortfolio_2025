@@ -1,6 +1,6 @@
 import React from 'react';
 import { PROJECTS } from './projectData';
-import { useWindowActions } from './WindowManagerContext';
+import { useWindowActions } from './windowManagerContext';
 
 /**
  * Lists all projects. Uses the window context to open individual project

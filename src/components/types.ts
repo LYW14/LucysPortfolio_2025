@@ -1,4 +1,5 @@
 // types.ts
+import type { ReactNode } from 'react';
 
 // --- Window content ---
 // Store identifiers, not React nodes, so content stays fresh and closures don't go stale.
@@ -74,7 +75,7 @@ export interface City {
   id: string;
   name: string;
   emoji: string;
-  slides: string[];
+  slides: (string | ReactNode)[];
 }
 
 export interface ThemeConfig {

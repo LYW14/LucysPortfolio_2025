@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useWindowManager } from './useWindowManager';
 import { createMenuHandlers } from './menuHandlers';
 import { Window } from './window';
-import { WindowManagerContext } from './WindowManagerContext';
+import { WindowManagerContext } from './windowManagerContext';
 
 // Asset imports
 import books from "../assets/books.png";

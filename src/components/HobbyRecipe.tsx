@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import woodenSpoon from '../assets/wooden_spoon.png';
+import ballroom from '../assets/ballroom.png';
+import running from '../assets/running.png';
+import madeleines from '../assets/madeleines.png';
 
 interface Hobby {
   title: string;
@@ -6,8 +10,8 @@ interface Hobby {
   totalTime: string;
   yields: string;
   needs: string[];
-  image: string;
-  imageAlt: string;
+  image?: string;
+  imageAlt?: string;
 }
 
 const HOBBIES: Hobby[] = [
@@ -17,8 +21,6 @@ const HOBBIES: Hobby[] = [
     totalTime: '10+ years',
     yields: 'the ability to learn nearly any piece of music, finger dexterity, and an indomitable love and appreciation for music and the people who make it',
     needs: ['A desire to learn', 'Patience', 'A piano', 'A great teacher'],
-    image: 'https://placehold.co/600x400?text=Classical+Piano',
-    imageAlt: 'Lucy playing classical piano',
   },
   {
     title: 'Whittling',
@@ -26,7 +28,7 @@ const HOBBIES: Hobby[] = [
     totalTime: '?',
     yields: 'unique spoons, handmade gifts, and the occasional splinter',
     needs: ['Wood', 'A knife', 'Creativity'],
-    image: 'https://placehold.co/600x400?text=Whittling',
+    image: woodenSpoon,
     imageAlt: 'Lucy whittling wood',
   },
   {
@@ -35,7 +37,7 @@ const HOBBIES: Hobby[] = [
     totalTime: '3 years',
     yields: 'connecting with strangers through physical movement, feeling like a Disney princess in a gown, and calf strength',
     needs: ['A place to dance', 'A partner (optional)'],
-    image: 'https://placehold.co/600x400?text=Ballroom+Dance',
+    image: ballroom,
     imageAlt: 'Lucy ballroom dancing',
   },
   {
@@ -44,7 +46,7 @@ const HOBBIES: Hobby[] = [
     totalTime: '10 seasons of track and field',
     yields: 'extensive knowledge of the best running shoes, a Strava account, and daydreams of running a marathon',
     needs: ['A pair of sneakers', 'Deodorant (recommended)'],
-    image: 'https://placehold.co/600x400?text=Running',
+    image: running,
     imageAlt: 'Lucy running',
   },
   {
@@ -53,7 +55,7 @@ const HOBBIES: Hobby[] = [
     totalTime: '10+ years',
     yields: 'endless sweet treats',
     needs: ['Hungry family + friends!'],
-    image: 'https://placehold.co/600x400?text=Baking',
+    image: madeleines,
     imageAlt: 'Lucy baking',
   },
 ];
@@ -70,20 +72,23 @@ export const HobbyRecipe: React.FC = () => {
 
   return (
     <div className="font-serif">
-      {/* Header */}
-      <div className="bg-[#673147] p-6 text-center rounded-t-lg -m-4 mb-0">
-        <h1 className="text-3xl font-bold text-white mb-3 drop-shadow-sm">{hobby.title}</h1>
-        <div className="text-xl text-yellow-500 drop-shadow-sm">{hobby.rating}</div>
-      </div>
-
-      {/* Hero photo */}
-      <div className="w-full -mx-4" style={{ width: 'calc(100% + 2rem)' }}>
-        <img
-          src={hobby.image}
-          alt={hobby.imageAlt}
-          className="w-full object-cover"
-          style={{ maxHeight: '260px' }}
-        />
+      {/* Header — photo as background, pure purple fallback for piano */}
+      <div
+        className="p-6 text-center rounded-t-lg -m-4 mb-0 relative overflow-hidden"
+        style={{
+          backgroundImage: hobby.image ? `url(${hobby.image})` : undefined,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundColor: '#673147',
+        }}
+      >
+        {hobby.image && (
+          <div className="absolute inset-0" style={{ backgroundColor: 'rgba(103,49,71,0.65)' }} />
+        )}
+        <div className="relative z-10">
+          <h1 className="text-3xl font-bold text-white mb-3 drop-shadow-sm">{hobby.title}</h1>
+          <div className="text-xl text-yellow-500 drop-shadow-sm">{hobby.rating}</div>
+        </div>
       </div>
 
       {/* Info grid */}

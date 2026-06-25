@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import type { Project } from './types';
 import { getEmbedUrl } from './utils';
+import { FormattedText } from './FormattedText';
 
 interface ProjectDetailsProps {
   project: Project;
@@ -12,7 +13,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
 
   const renderVideo = (videoUrl: string, index: number) => {
     const isYouTube = videoUrl.includes('youtube.com') || videoUrl.includes('youtu.be');
-    
+
     if (isYouTube) {
       return (
         <iframe
@@ -27,15 +28,9 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         />
       );
     }
-    
+
     return (
-      <video
-        key={index}
-        width="100%"
-        height="250"
-        controls
-        className="rounded-lg"
-      >
+      <video key={index} width="100%" height="250" controls className="rounded-lg">
         <source src={videoUrl} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
@@ -62,7 +57,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
 
   return (
     <div className="max-w-full">
-      {/* Header Section */}
+      {/* Header */}
       <div className="flex items-center space-x-4 mb-6 pb-4 border-b border-gray-200">
         <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-red-100 rounded-xl flex items-center justify-center text-3xl">
           {project.logo}
@@ -72,7 +67,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         </div>
       </div>
 
-      {/* Videos Section */}
+      {/* Videos */}
       {project.media?.videos && project.media.videos.length > 0 && (
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-3">🎥 Demo Videos</h3>
@@ -84,7 +79,7 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
         </div>
       )}
 
-      {/* Files Section */}
+      {/* Files */}
       {project.media?.files && project.media.files.length > 0 && (
         <div className="mb-6">
           <h3 className="text-lg font-semibold text-gray-800 mb-3">📁 Related Files</h3>
@@ -97,25 +92,17 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
                 rel="noopener noreferrer"
                 className="flex items-center space-x-3 p-3 bg-white hover:bg-gray-50 border border-gray-200 hover:border-gray-300 rounded-lg transition-all duration-200"
               >
-                <div className="flex-shrink-0">
-                  <span className={getFileIconColor(file.type)}>
-                    {getFileIcon(file.type)}
-                  </span>
-                </div>
-                <div className="flex-grow">
-                  <span className="font-medium text-gray-800">{file.name}</span>
-                  <span className="text-sm text-gray-500 ml-2">
-                    ({file.type.toUpperCase()})
-                  </span>
-                </div>
-                <div className="flex-shrink-0 text-gray-400">→</div>
+                <span className={getFileIconColor(file.type)}>{getFileIcon(file.type)}</span>
+                <span className="font-medium text-gray-800">{file.name}</span>
+                <span className="text-sm text-gray-500">({file.type.toUpperCase()})</span>
+                <span className="ml-auto text-gray-400">→</span>
               </a>
             ))}
           </div>
         </div>
       )}
 
-      {/* Description Section */}
+      {/* Description */}
       <div className="mb-6">
         <div className="flex space-x-2 mb-4">
           {(['short', 'medium', 'long'] as const).map((length) => (
@@ -132,20 +119,19 @@ export const ProjectDetails: React.FC<ProjectDetailsProps> = ({ project }) => {
             </button>
           ))}
         </div>
-        
         <div className="bg-white rounded-lg border border-gray-200 p-4 min-h-[120px]">
-          <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-            {project.descriptions[selectedLength]}
+          <p className="text-gray-700 leading-relaxed">
+            <FormattedText text={project.descriptions[selectedLength]} />
           </p>
         </div>
       </div>
 
-      {/* Learning Section */}
+      {/* What I Learned */}
       <div className="border-t border-gray-200 pt-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-3">What I Learned</h3>
         <div className="bg-orange-50 rounded-lg p-4 border border-orange-200">
           <p className="text-gray-700 leading-relaxed">
-            {project.learned}
+            <FormattedText text={project.learned} />
           </p>
         </div>
       </div>

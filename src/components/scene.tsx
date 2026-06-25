@@ -75,8 +75,8 @@ export default function Scene() {
 
       {/* Fridge Menu */}
       <div className="absolute left-2 top-1/2 transform -translate-y-1/2 flex flex-col space-y-4 z-[10]">
-        <img src={menu} alt="menu" className="menu-header mb-4" />
         <div className="menu-container">
+          <img src={menu} alt="menu" className="absolute menu-header" />
           <img src={projects}   alt="projects"   className="absolute fridge-menu-item menu-item-1 icon" onClick={handleProjectsMenu} />
           <img src={places}     alt="places"     className="absolute fridge-menu-item menu-item-2 icon" onClick={handlePlacesMenu} />
           <img src={reading}    alt="reading"    className="absolute fridge-menu-item menu-item-3 icon" onClick={handleReadingMenu} />
